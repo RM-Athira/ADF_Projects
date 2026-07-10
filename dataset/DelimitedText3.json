@@ -5,6 +5,16 @@
 			"referenceName": "LS_ADLSGEN2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"TargetFolder": {
+				"type": "string",
+				"defaultValue": "@'CSV_Files'"
+			},
+			"TargetFileName": {
+				"type": "string",
+				"defaultValue": "@item().name"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
@@ -14,7 +24,7 @@
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": []
