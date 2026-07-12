@@ -8,10 +8,10 @@
 			"server": "DESKTOP-HJQ2IDT\\SQLEXPRESS",
 			"database": "RetailDW_Dev",
 			"encrypt": "mandatory",
-			"trustServerCertificate": false,
+			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "Admin",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkMjZjNzA3Mi03NjFlLTRlZmYtOTk5ZC1jY2RlNmViY2MzNWMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2ZjUxZDU1Yi05ZjhhLTQ4YzgtODNjOC03OGU3YTQ4ZGVhOTkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "Test-IR-01234",
