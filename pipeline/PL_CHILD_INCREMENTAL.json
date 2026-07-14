@@ -37,12 +37,13 @@
 								"type": "Expression"
 							}
 						}
-					}
+					},
+					"firstRowOnly": true
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
+				"name": "IF_NEW_REC_EXISTS",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
 						"activity": "LUK_UP_MAX",
@@ -51,17 +52,55 @@
 						]
 					}
 				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "ArryVal",
-					"value": {
-						"value": "@activity('LUK_UP_MAX').output.value",
+					"expression": {
+						"value": "@or(equals(pipeline().parameters.LastLoadValue, null),greater(int(activity('LUK_UP_MAX').output.firstrow.MaxValue), int(pipeline().parameters.LastLoadValue)))",
 						"type": "Expression"
-					}
+					},
+					"ifTrueActivities": [
+						{
+							"name": "CPY_SQL_INCREMENTAL",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n  'SELECT * FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\n  if(\n    equals(pipeline().parameters.LastLoadValue, null),\n    '',\n    concat(\n      ' WHERE ',\n      pipeline().parameters.WatermarkColumn,\n      ' > ''', string(pipeline().parameters.LastLoadValue), ''''\n    )\n  )\n)\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_LUKUP_MAX_VALUE",
+									"type": "DatasetReference",
+									"parameters": {
+										"schemaname": {
+											"value": "@pipeline().parameters.TableSchema",
+											"type": "Expression"
+										},
+										"tablename": {
+											"value": "@pipeline().parameters.TableName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
 				}
 			}
 		],
