@@ -195,7 +195,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@concat(\n  'SELECT * FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\n  if(\n    equals(pipeline().parameters.LastLoadValue, null),\n    '',\n    concat(\n      ' WHERE ',\n      pipeline().parameters.WatermarkColumn,\n      ' > ''', string(pipeline().parameters.LastLoadValue), ''''\n    )\n  )\n)\n",
+										"value": "@concat(\n  'SELECT * FROM ', pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName,\n  ' WHERE ', pipeline().parameters.WatermarkColumn, ' > ',\n  pipeline().parameters.LastLoadValue\n)",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -262,7 +262,7 @@
 			},
 			"LastLoadValue": {
 				"type": "string",
-				"defaultValue": "2026-07-12"
+				"defaultValue": "1000"
 			}
 		},
 		"variables": {
