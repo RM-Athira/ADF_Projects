@@ -173,9 +173,14 @@
 						{
 							"name": "CPY_SQL_ADLS",
 							"type": "Copy",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -218,10 +223,6 @@
 									"referenceName": "DS_LUKUP_MAX_VALUE",
 									"type": "DatasetReference",
 									"parameters": {
-										"schemaname": {
-											"value": "@pipeline().parameters.TableSchema",
-											"type": "Expression"
-										},
 										"tablename": {
 											"value": "@pipeline().parameters.TableName",
 											"type": "Expression"
@@ -252,9 +253,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "DebugString",
+								"variableName": "DebugInt",
 								"value": {
-									"value": "@pipeline().parameters.TableName",
+									"value": "@activity('LUK_UP_MAX').output.firstRow.MaxValue",
 									"type": "Expression"
 								}
 							}
@@ -278,7 +279,7 @@
 			},
 			"LastLoadValue": {
 				"type": "string",
-				"defaultValue": "2026-07-10"
+				"defaultValue": "2026-07-12"
 			}
 		},
 		"variables": {
@@ -290,6 +291,9 @@
 			},
 			"DebugString": {
 				"type": "String"
+			},
+			"DebugInt": {
+				"type": "Integer"
 			}
 		},
 		"annotations": []
