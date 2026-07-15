@@ -18,15 +18,25 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "@concat(\n  'SELECT MAX(', pipeline().parameters.WatermarkColumn, ') AS MaxValue FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName\n)\n",
+							"value": "SELECT\nMAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue​\n\nFROM\n@{pipeline().parameters.TableSchema}.@\n{pipeline().parameters.TableName}​\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "DS_LUKUP_MAX_VALUE",
-						"type": "DatasetReference"
+						"referenceName": "DS_LUKUP_MAX_VAL",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaname": {
+								"value": "@pipeline().parameters.TableSchema",
+								"type": "Expression"
+							},
+							"tablename": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							}
+						}
 					},
 					"firstRowOnly": true
 				}
@@ -75,32 +85,8 @@
 										"type": "ParquetWriteSettings"
 									}
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
-							"inputs": [
-								{
-									"referenceName": "DS_LUKUP_MAX_VALUE",
-									"type": "DatasetReference",
-									"parameters": {
-										"schemaname": {
-											"value": "@pipeline().parameters.TableSchema",
-											"type": "Expression"
-										},
-										"tablename": {
-											"value": "@pipeline().parameters.TableName",
-											"type": "Expression"
-										}
-									}
-								}
-							],
 							"outputs": [
 								{
 									"referenceName": "DS_SQL_ADLS",
