@@ -2,14 +2,16 @@
 	"name": "DS_SQL_PARQUET",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_SQL_PARQUET",
+			"referenceName": "LS_ADLSGEN2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation"
+				"type": "AzureBlobFSLocation",
+				"folderPath": "incremental",
+				"fileSystem": "output"
 			},
 			"compressionCodec": "snappy"
 		},

@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "SELECT\nMAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue​\n\nFROM\n@{pipeline().parameters.TableSchema}.@\n{pipeline().parameters.TableName}​\n",
+							"value": "@concat(\n  'SELECT MAX(', pipeline().parameters.WatermarkColumn, ') AS MaxValue FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName\n)\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -222,11 +222,15 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "DS_SQL_ADLS_NEW",
+									"referenceName": "DS_LUKUP_MAX_VAL",
 									"type": "DatasetReference",
 									"parameters": {
 										"schemaname": {
 											"value": "@pipeline().parameters.TableSchema",
+											"type": "Expression"
+										},
+										"tablename": {
+											"value": "@pipeline().parameters.TableName",
 											"type": "Expression"
 										}
 									}
