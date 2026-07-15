@@ -195,7 +195,16 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [],
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{pipeline().parameters.TableSchema}.@{'<tablename>'}"
+								},
+								{
+									"name": "Destination",
+									"value": "//"
+								}
+							],
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
