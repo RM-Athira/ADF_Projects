@@ -18,7 +18,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "SELECT MAX(@{pipeline().parameters.WatermarkColumn}) AS MaxValue​ FROM @{pipeline().parameters.TableSchema}.@{pipeline().parameters.TableName}",
+							"value": "@concat(\n  'SELECT MAX(', pipeline().parameters.WatermarkColumn, ') AS MaxValue FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName\n)\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -44,18 +44,13 @@
 			{
 				"name": "IF_NEW_REC_EXISTS",
 				"type": "IfCondition",
-				"dependsOn": [
-					{
-						"activity": "LUK_UP_MAX",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@or(equals(pipeline().parameters.LastLoadValue, null),greater(int(activity('LUK_UP_MAX').output.firstrow.MaxValue), int(pipeline().parameters.LastLoadValue)))",
+						"value": "@or(\n  equals(pipeline().parameters.LastLoadValue, null),\n  greater(\n    int(activity('LUK_UP_MAX').output.firstRow.MaxValue),\n    int(pipeline().parameters.LastLoadValue)\n  )\n)\n\n",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -132,6 +127,8 @@
 						{
 							"name": "EXEC_UPDATE_WATERMARK",
 							"type": "ExecutePipeline",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "CPY_SQL_INCREMENTAL",
@@ -154,27 +151,125 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "LUK_UP_MAX",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('LUK_UP_MAX').output.firstRow.MaxValue\n",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "CPY_SQL_ADLS",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat(\n  'SELECT MAX(', pipeline().parameters.WatermarkColumn, ') AS MaxValue FROM ',\n  pipeline().parameters.TableSchema, '.', pipeline().parameters.TableName\n)",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_LUKUP_MAX_VALUE",
+									"type": "DatasetReference",
+									"parameters": {
+										"schemaname": {
+											"value": "@pipeline().parameters.TableSchema",
+											"type": "Expression"
+										},
+										"tablename": {
+											"value": "@pipeline().parameters.TableName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_SQL_ADLS",
+									"type": "DatasetReference",
+									"parameters": {
+										"Table_Name": {
+											"value": "@pipeline().parameters.TableName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"TableSchema": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dbo"
 			},
 			"TableName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "DimCustomer"
 			},
 			"WatermarkColumn": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "CustomerKey"
 			},
 			"LastLoadValue": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "2026-07-10"
 			}
 		},
 		"variables": {
 			"ArryVal": {
 				"type": "Array"
 			},
-			"objectVar": {
+			"DebugFlag": {
+				"type": "Boolean"
+			},
+			"DebugString": {
 				"type": "String"
 			}
 		},
