@@ -2,16 +2,28 @@
 	"name": "DS_SQL_PARQUET",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_ADLSGEN2",
+			"referenceName": "LS_PARQUET_SQL",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Table_Name": {
+				"type": "string"
+			}
 		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "incremental",
-				"fileSystem": "output"
+				"fileName": {
+					"value": "@concat(dataset().Table_Name,'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'),'.parquet')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(dataset().Table_Name, '/', formatDateTime(utcNow(), 'yyyy/MM/dd'))\n",
+					"type": "Expression"
+				},
+				"fileSystem": "retaildw"
 			},
 			"compressionCodec": "snappy"
 		},
