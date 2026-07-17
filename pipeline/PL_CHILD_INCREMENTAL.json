@@ -147,33 +147,9 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "DebugInt",
-								"value": {
-									"value": "@activity('LUK_UP_MAX').output.firstRow.MaxValue",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "CPY_SQL_ADLS",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set variable1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
