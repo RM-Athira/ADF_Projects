@@ -1,0 +1,17 @@
+{
+	"name": "DS_GET_BLOB_FILES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GET_META_BLOB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "input"
+			}
+		}
+	}
+}
