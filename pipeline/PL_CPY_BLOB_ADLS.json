@@ -56,12 +56,12 @@
 							"userProperties": [],
 							"typeProperties": {
 								"on": {
-									"value": "@item().name",
+									"value": "@substring(item().name, add(lastIndexOf(item().name,'.'),1), sub(length(item().name), add(lastIndexOf(item().name,'.'),1)))\n",
 									"type": "Expression"
 								},
 								"cases": [
 									{
-										"value": "cpy_csv",
+										"value": "csv",
 										"activities": [
 											{
 												"name": "Copy data1",
@@ -95,7 +95,7 @@
 														"formatSettings": {
 															"type": "DelimitedTextWriteSettings",
 															"quoteAllText": true,
-															"fileExtension": ".txt"
+															"fileExtension": ".csv"
 														}
 													},
 													"enableStaging": false,
