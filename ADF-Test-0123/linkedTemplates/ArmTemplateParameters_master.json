@@ -1,0 +1,111 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADF-Test-0123"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"GET_META_LS_connectionString": {
+			"value": ""
+		},
+		"LS_ADLSGEN2_accountKey": {
+			"value": ""
+		},
+		"LS_CPY_ADLS_accountKey": {
+			"value": ""
+		},
+		"LS_GET_META_BLOB_connectionString": {
+			"value": ""
+		},
+		"LS_MAXVALUE_password": {
+			"value": ""
+		},
+		"LS_ONPREM_SQL_SERVER_password": {
+			"value": ""
+		},
+		"LS_PARQUET_SQL_accountKey": {
+			"value": ""
+		},
+		"LS_SQLSERVER_password": {
+			"value": ""
+		},
+		"LS_SQL_ADLS_NEW_password": {
+			"value": ""
+		},
+		"LS_SQL_PARQUET_accountKey": {
+			"value": ""
+		},
+		"ls_sql_server_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://blobtest01234sa.dfs.core.windows.net/"
+		},
+		"LS_ADLSGEN2_properties_typeProperties_url": {
+			"value": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"LS_CPY_ADLS_properties_typeProperties_url": {
+			"value": "https://blobtest01234sa.dfs.core.windows.net/"
+		},
+		"LS_MAXVALUE_properties_typeProperties_server": {
+			"value": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_MAXVALUE_properties_typeProperties_database": {
+			"value": "RetailDW_Dev"
+		},
+		"LS_MAXVALUE_properties_typeProperties_userName": {
+			"value": "Admin"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_server": {
+			"value": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_database": {
+			"value": "RetailDW_Dev"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_userName": {
+			"value": "Admin"
+		},
+		"LS_PARQUET_SQL_properties_typeProperties_url": {
+			"value": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"value": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"value": "RetailDW_Dev"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"value": "Admin"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_server": {
+			"value": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_database": {
+			"value": "RetailDW_Dev"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_userName": {
+			"value": "admin"
+		},
+		"LS_SQL_PARQUET_properties_typeProperties_url": {
+			"value": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"ls_sql_server_properties_typeProperties_server": {
+			"value": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"ls_sql_server_properties_typeProperties_database": {
+			"value": "RetailDW_Dev"
+		},
+		"ls_sql_server_properties_typeProperties_userName": {
+			"value": "admin"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

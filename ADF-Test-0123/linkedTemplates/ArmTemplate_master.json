@@ -1,0 +1,286 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADF-Test-0123"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"GET_META_LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'GET_META_LS'"
+		},
+		"LS_ADLSGEN2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLSGEN2'"
+		},
+		"LS_CPY_ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_CPY_ADLS'"
+		},
+		"LS_GET_META_BLOB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_GET_META_BLOB'"
+		},
+		"LS_MAXVALUE_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_MAXVALUE'"
+		},
+		"LS_ONPREM_SQL_SERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ONPREM_SQL_SERVER'"
+		},
+		"LS_PARQUET_SQL_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_PARQUET_SQL'"
+		},
+		"LS_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
+		},
+		"LS_SQL_ADLS_NEW_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQL_ADLS_NEW'"
+		},
+		"LS_SQL_PARQUET_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_SQL_PARQUET'"
+		},
+		"ls_sql_server_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sql_server'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://blobtest01234sa.dfs.core.windows.net/"
+		},
+		"LS_ADLSGEN2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"LS_CPY_ADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://blobtest01234sa.dfs.core.windows.net/"
+		},
+		"LS_MAXVALUE_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_MAXVALUE_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "RetailDW_Dev"
+		},
+		"LS_MAXVALUE_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Admin"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "RetailDW_Dev"
+		},
+		"LS_ONPREM_SQL_SERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Admin"
+		},
+		"LS_PARQUET_SQL_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "RetailDW_Dev"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Admin"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "RetailDW_Dev"
+		},
+		"LS_SQL_ADLS_NEW_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "admin"
+		},
+		"LS_SQL_PARQUET_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsgen2test01234.dfs.core.windows.net/"
+		},
+		"ls_sql_server_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-HJQ2IDT\\SQLEXPRESS"
+		},
+		"ls_sql_server_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "RetailDW_Dev"
+		},
+		"ls_sql_server_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "admin"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ADF-Test-0123_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"GET_META_LS_connectionString": {
+						"value": "[parameters('GET_META_LS_connectionString')]"
+					},
+					"LS_ADLSGEN2_accountKey": {
+						"value": "[parameters('LS_ADLSGEN2_accountKey')]"
+					},
+					"LS_CPY_ADLS_accountKey": {
+						"value": "[parameters('LS_CPY_ADLS_accountKey')]"
+					},
+					"LS_GET_META_BLOB_connectionString": {
+						"value": "[parameters('LS_GET_META_BLOB_connectionString')]"
+					},
+					"LS_SQL_PARQUET_accountKey": {
+						"value": "[parameters('LS_SQL_PARQUET_accountKey')]"
+					},
+					"LS_MAXVALUE_password": {
+						"value": "[parameters('LS_MAXVALUE_password')]"
+					},
+					"LS_ONPREM_SQL_SERVER_password": {
+						"value": "[parameters('LS_ONPREM_SQL_SERVER_password')]"
+					},
+					"LS_PARQUET_SQL_accountKey": {
+						"value": "[parameters('LS_PARQUET_SQL_accountKey')]"
+					},
+					"LS_SQLSERVER_password": {
+						"value": "[parameters('LS_SQLSERVER_password')]"
+					},
+					"LS_SQL_ADLS_NEW_password": {
+						"value": "[parameters('LS_SQL_ADLS_NEW_password')]"
+					},
+					"ls_sql_server_password": {
+						"value": "[parameters('ls_sql_server_password')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"LS_ADLSGEN2_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLSGEN2_properties_typeProperties_url')]"
+					},
+					"LS_CPY_ADLS_properties_typeProperties_url": {
+						"value": "[parameters('LS_CPY_ADLS_properties_typeProperties_url')]"
+					},
+					"LS_SQL_PARQUET_properties_typeProperties_url": {
+						"value": "[parameters('LS_SQL_PARQUET_properties_typeProperties_url')]"
+					},
+					"LS_MAXVALUE_properties_typeProperties_server": {
+						"value": "[parameters('LS_MAXVALUE_properties_typeProperties_server')]"
+					},
+					"LS_MAXVALUE_properties_typeProperties_database": {
+						"value": "[parameters('LS_MAXVALUE_properties_typeProperties_database')]"
+					},
+					"LS_MAXVALUE_properties_typeProperties_userName": {
+						"value": "[parameters('LS_MAXVALUE_properties_typeProperties_userName')]"
+					},
+					"LS_ONPREM_SQL_SERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_ONPREM_SQL_SERVER_properties_typeProperties_server')]"
+					},
+					"LS_ONPREM_SQL_SERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_ONPREM_SQL_SERVER_properties_typeProperties_database')]"
+					},
+					"LS_ONPREM_SQL_SERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ONPREM_SQL_SERVER_properties_typeProperties_userName')]"
+					},
+					"LS_PARQUET_SQL_properties_typeProperties_url": {
+						"value": "[parameters('LS_PARQUET_SQL_properties_typeProperties_url')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
+					},
+					"LS_SQL_ADLS_NEW_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQL_ADLS_NEW_properties_typeProperties_server')]"
+					},
+					"LS_SQL_ADLS_NEW_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQL_ADLS_NEW_properties_typeProperties_database')]"
+					},
+					"LS_SQL_ADLS_NEW_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQL_ADLS_NEW_properties_typeProperties_userName')]"
+					},
+					"ls_sql_server_properties_typeProperties_server": {
+						"value": "[parameters('ls_sql_server_properties_typeProperties_server')]"
+					},
+					"ls_sql_server_properties_typeProperties_database": {
+						"value": "[parameters('ls_sql_server_properties_typeProperties_database')]"
+					},
+					"ls_sql_server_properties_typeProperties_userName": {
+						"value": "[parameters('ls_sql_server_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "ADF-Test-0123_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ADF-Test-0123_ArmTemplate_0')]"
+			]
+		}
+	]
+}
